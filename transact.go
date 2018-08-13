@@ -16,7 +16,7 @@ type Tx interface {
     QueryRowContext(ctx context.Context, query string, args ...interface{}) *sql.Row
 }
 
-type TxFn func(Transaction) error
+type TxFn func(Tx) error
 
 func Do(db *sql.DB, fn TxFn) (err error) {
     tx, err := db.Begin()
