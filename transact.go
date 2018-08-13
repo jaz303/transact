@@ -5,7 +5,7 @@ import (
     "database/sql"
 )
 
-type Transaction interface {
+type Tx interface {
     Exec(query string, args ...interface{}) (sql.Result, error)
     ExecContext(ctx context.Context, query string, args ...interface{}) (sql.Result, error)
     Prepare(query string) (*sql.Stmt, error)
@@ -18,7 +18,7 @@ type Transaction interface {
 
 type TxFn func(Transaction) error
 
-func Transact(db *sql.DB, fn TxFn) (err error) {
+func Do(db *sql.DB, fn TxFn) (err error) {
     tx, err := db.Begin()
     if err != nil {
         return
